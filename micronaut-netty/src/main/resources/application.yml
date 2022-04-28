@@ -1,0 +1,45 @@
+micronaut:
+  application:
+    name: metrics
+  server:
+    port: 9080
+    ssl:
+      enabled: true
+      port: 9090
+      keyStore:
+        path: file:keystore.jks
+        password: changeit
+        type: JKS
+    host-resolution:
+      host-header: Forwarded
+    dual-protocol: true
+    http-to-https-redirect: false
+  metrics:
+    binders.jvm.enabled: true #optional true by default
+    binders.uptime.enabled: true #optional true by default
+    binders.processor.enabled: true #optional true by default
+    binders.files.enabled: true #optional true by default
+    binders.logback.enabled: true #optional true by default
+    binders.web.enabled: false
+    enabled: true #optional true by default
+  http:
+    client:
+      ssl:
+        insecure-trust-all-certificates: true
+  executors:
+    io:
+      type: fixed
+      nThreads: 10
+
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+    details-visible: ANONYMOUS
+  prometheus:
+    enabled: true
+    sensitive: false
+
+## proxy config (assuming ssh port mapped to wtss node port)
+gaes:
+  forward-to: http://localhost:9080
